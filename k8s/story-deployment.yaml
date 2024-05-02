@@ -23,6 +23,12 @@ spec:
           volumeMounts:
             - name: stories-data
               mountPath: /app/story
+          livenessProbe:
+            httpGet:
+              path: /story
+              port: 3000
+            periodSeconds: 3
+            initialDelaySeconds: 3
       volumes:
         - name: stories-data
           emptyDir: {}
