@@ -5,7 +5,7 @@ metadata:
   labels:
     app: story
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: story
@@ -20,18 +20,21 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
-          volumeMounts:
-            - name: stories-data
-              mountPath: /app/story
           livenessProbe:
             httpGet:
               path: /story
               port: 3000
             periodSeconds: 3
             initialDelaySeconds: 3
+          volumeMounts:
+            - name: stories-data
+              mountPath: /app/story
       volumes:
         - name: stories-data
-          emptyDir: {}
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate
+          # emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
