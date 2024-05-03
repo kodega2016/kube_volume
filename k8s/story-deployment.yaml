@@ -29,6 +29,9 @@ spec:
           volumeMounts:
             - name: stories-data
               mountPath: /app/story
+          env:
+            - name: STORY_FOLDER
+              value: story
       volumes:
         - name: stories-data
           persistentVolumeClaim:
