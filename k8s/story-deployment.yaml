@@ -5,7 +5,7 @@ metadata:
   labels:
     app: story
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: story
@@ -31,21 +31,9 @@ spec:
               mountPath: /app/story
       volumes:
         - name: stories-data
-          hostPath:
-            path: /data
-            type: DirectoryOrCreate
-          # emptyDir: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: story-loadbalancer-service
-spec:
-  selector:
-    app: story
-  type: LoadBalancer
-  ports:
-    - name: story
-      protocol: TCP
-      port: 80
-      targetPort: 3000
+          persistentVolumeClaim:
+            claimName: story-persistent-volume-claim
+      # hostPath:
+      #   path: /data
+      #   type: DirectoryOrCreate
+      # emptyDir: {}
